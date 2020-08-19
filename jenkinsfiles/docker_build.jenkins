@@ -10,6 +10,12 @@ def cur_time(){
 }
 
 ct = cur_time();
+try {
+    sh 'docker stop web_d'
+    sh 'docker rm web_d'
+} catch (err) {
+    echo err.getMessage()
+}
 
 properties([disableConcurrentBuilds()])
 
