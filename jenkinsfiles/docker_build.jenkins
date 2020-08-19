@@ -24,7 +24,9 @@ pipeline {
             steps {
                  echo "============= start building image =============="
                  dir ('taskmanager') {
-                    sh 'docker build -t web:' + cur_time() + ' .'
+                    ct = cur_time();
+                    sh 'docker build -t web:' + ct + ' .'
+                    sh 'docker run -d --name web_d -p 8000:8000 web' + ct
                  }
             }
         }
