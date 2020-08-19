@@ -25,7 +25,7 @@ pipeline {
         stage("stop web_d") {
             steps {
                  echo "============= stop web_d =============="
-                 /*dir ('taskmanager') {
+                 dir ('taskmanager') {
                     script {
                         try {
                             sh 'docker stop web_d'
@@ -35,7 +35,7 @@ pipeline {
                         }
                     }
                  }
-                 */
+
             }
         }
         stage("build") {
