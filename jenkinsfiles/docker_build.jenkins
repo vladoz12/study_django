@@ -22,11 +22,10 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("create docker image") {
+        stage("stop web_d") {
             steps {
-                 echo "============= start building image =============="
+                 echo "============= stop web_d =============="
                  dir ('taskmanager') {
-                    sh 'docker build -t web:' + ct + ' .'
                     script {
                         try {
                             sh 'docker stop web_d'
@@ -34,7 +33,14 @@ pipeline {
                         } catch (err) {
                             echo err.getMessage()
                         }
-                    }
+                 }
+            }
+        }
+        stage("build") {
+            steps {
+                 echo "============= start building image =============="
+                 dir ('taskmanager') {
+                    sh 'docker build -t web:' + ct + ' .'
                     sh 'docker run -d --name web_d -p 8000:8000 web:' + ct
                  }
             }
