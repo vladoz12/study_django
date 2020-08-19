@@ -9,6 +9,8 @@ def cur_time(){
     return t.format(formatter)
 }
 
+ct = cur_time();
+
 properties([disableConcurrentBuilds()])
 
 pipeline {
@@ -24,9 +26,8 @@ pipeline {
             steps {
                  echo "============= start building image =============="
                  dir ('taskmanager') {
-                    ct = cur_time();
                     sh 'docker build -t web:' + ct + ' .'
-                    sh 'docker run -d --name web_d -p 8000:8000 web' + ct
+                    sh 'docker run -d --name web_d -p 8000:8000 web:' + ct
                  }
             }
         }
