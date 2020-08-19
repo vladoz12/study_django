@@ -43,7 +43,7 @@ pipeline {
                  echo "============= start building image =============="
                  dir ('taskmanager') {
                     sh 'docker build -t web:' + ct + ' .'
-                    sh 'docker run -rm --name web_d -p 8000:8000 web:' + ct
+                    sh 'docker run -d --rm --name web_d -p 8000:8000 web:' + ct
                  }
             }
         }
