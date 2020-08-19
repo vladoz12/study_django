@@ -1,0 +1,32 @@
+#!groovy
+// Run docker build
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+def cur_time(){
+    LocalDateTime t = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    return t.format(formatter)
+}
+
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent {
+        label 'master'
+        }
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("create docker image") {
+            steps {
+                 echo "============= start building image =============="
+                 dir ('taskmanager') {
+                    sh 'docker build -t web:'+cur_time()
+                 }
+            }
+        }
+    }
+}
